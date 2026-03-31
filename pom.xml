@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.linkedInProject</groupId>
+    <artifactId>linkedin-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>LinkedIn</name>
+
+    <modules>
+        <!-- All child microservices registered here — running mvn clean install
+         on root folder will build all modules in one shot instead of
+         building each service individually -->
+        <module>ConnectionsService</module>
+        <module>postsService</module>
+        <module>userService</module>
+        <module>APIGateway</module>
+        <module>DiscoverService</module>
+    </modules>
+</project>

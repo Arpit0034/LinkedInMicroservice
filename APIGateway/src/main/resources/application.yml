@@ -1,0 +1,35 @@
+server:
+  port: 8080                 # Single entry point for all clients
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka   # Eureka server location
+
+spring:
+  application:
+    name: api-gateway        # Gateway name registered in Eureka
+  cloud:
+    gateway:
+      routes:
+
+        - id: user-service                        # Unique route identifier
+          uri: lb://USER-SERVICE                  # lb = load balanced, fetches address from Eureka
+          predicates:
+            - Path=/api/v1/users/**               # Matches all requests starting with /api/v1/users
+          filters:
+            - StripPrefix=2                       # Removes /api/v1/ before forwarding → /users/...
+
+        - id: posts-service                       # Route for posts
+          uri: lb://POSTS-SERVICE                 # POSTS-SERVICE registered in Eureka
+          predicates:
+            - Path=/api/v1/posts/**               # Matches /api/v1/posts/**
+          filters:
+            - StripPrefix=2                       # Strips /api/v1/ before forwarding
+
+        - id: connections-service                 # Route for connections
+          uri: lb://CONNECTIONS-SERVICE           # CONNECTIONS-SERVICE registered in Eureka
+          predicates:
+            - Path=/api/v1/connections/**         # Matches /api/v1/connections/**
+          filters:
+            - StripPrefix=2                       # Strips /api/v1/ before forwarding
