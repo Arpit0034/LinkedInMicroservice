@@ -9,13 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="APIGateway" />
         <module name="DiscoveryService" />
-        <module name="connectionsService (1)" />
         <module name="ConnectionsService" />
         <module name="postsService" />
         <module name="userService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="connectionsService (1)" target="21" />
       <module name="LinkedIn" target="1.5" />
     </bytecodeTargetLevel>
   </component>
