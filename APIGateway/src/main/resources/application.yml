@@ -2,6 +2,8 @@ server:
   port: 8080                 # Single entry point for all clients
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka   # Eureka server location

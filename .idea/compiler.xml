@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="APIGateway" />
         <module name="DiscoveryService" />
+        <module name="notificationSservice" />
         <module name="ConnectionsService" />
         <module name="postsService" />
         <module name="userService" />
@@ -25,6 +26,7 @@
       <module name="ConnectionsService" options="-parameters" />
       <module name="DiscoveryService" options="-parameters" />
       <module name="connectionsService (1)" options="-parameters" />
+      <module name="notificationSservice" options="-parameters" />
       <module name="postsService" options="-parameters" />
       <module name="userService" options="-parameters" />
     </option>

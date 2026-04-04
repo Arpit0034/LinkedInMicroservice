@@ -20,5 +20,6 @@
         <module>userService</module>
         <module>APIGateway</module>
         <module>DiscoverService</module>
+        <module>notification-service</module>
     </modules>
 </project>

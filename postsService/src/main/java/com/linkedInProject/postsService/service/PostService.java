@@ -6,11 +6,13 @@ import com.linkedInProject.postsService.dto.PersonDto;
 import com.linkedInProject.postsService.dto.PostCreateRequestDto;
 import com.linkedInProject.postsService.dto.PostDto;
 import com.linkedInProject.postsService.entity.Post;
+import com.linkedInProject.postsService.event.PostCreated;
 import com.linkedInProject.postsService.exception.ResourceNotFoundException;
 import com.linkedInProject.postsService.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,23 +25,30 @@ public class PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
     private final ConnectionsServiceClient connectionsServiceClient;
+    private final KafkaTemplate<Long, PostCreated> postCreatedKafkaTemplate ;
 
     public PostDto createPost(PostCreateRequestDto postCreateRequestDto, Long userId){
         log.info("Creating post for user with Id: {}",userId) ;
         Post post = modelMapper.map(postCreateRequestDto,Post.class);
         post.setUserId(userId);
         post = postRepository.save(post);
+        List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
+
+        for(PersonDto personDto : personDtoList){ // send notification to each user
+            PostCreated postCreated = PostCreated.builder()
+                    .postId(post.getId())
+                    .content(post.getContent())
+                    .userId(personDto.getUserId())
+                    .ownerUserId(userId)
+                    .build() ;
+            postCreatedKafkaTemplate.send("post_created_topic",postCreated);
+        }
+
         return modelMapper.map(post,PostDto.class) ;
     }
 
     public PostDto getPostById(Long postId) {
         log.info("Getting the post with Id: {}",postId) ;
-        Long userId = AuthContextHolder.getCurrentUserId() ;
-        // TODO: Remove in future
-        // call the connection service from the Posts Service and pass the userId inside the headers
-
-        List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
-
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with Id: "+postId)) ;
         return modelMapper.map(post,PostDto.class) ;
     }
@@ -50,3 +59,7 @@ public class PostService {
         return postList.stream().map((element) -> modelMapper.map(element,PostDto.class)).toList() ;
     }
 }
+
+// call the connection service from the Posts Service and pass the userId inside the headers
+// Long userId = AuthContextHolder.getCurrentUserId() ;
+// List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
