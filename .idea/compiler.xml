@@ -7,27 +7,33 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="APIGateway" />
-        <module name="DiscoveryService" />
-        <module name="notificationSservice" />
         <module name="ConnectionsService" />
         <module name="postsService" />
+        <module name="DiscoverService" />
+        <module name="APIGateway" />
+        <module name="uploader-service" />
+        <module name="notification-service" />
         <module name="userService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="connectionsService (1)" target="21" />
+      <module name="DiscoveryService" target="21" />
       <module name="LinkedIn" target="1.5" />
+      <module name="notificationSservice" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="APIGateway" options="-parameters" />
       <module name="ConnectionsService" options="-parameters" />
+      <module name="DiscoverService" options="-parameters" />
       <module name="DiscoveryService" options="-parameters" />
       <module name="connectionsService (1)" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
       <module name="notificationSservice" options="-parameters" />
       <module name="postsService" options="-parameters" />
+      <module name="uploader-service" options="-parameters" />
       <module name="userService" options="-parameters" />
     </option>
   </component>

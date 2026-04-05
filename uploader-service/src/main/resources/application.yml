@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: uploader-service
+  cloud:
+    gcp:
+      storage-bucket-name: linkedin_project_microservice
+      credentials:
+        location: file:${GOOGLE_APPLICATION_CREDENTIALS}
+
+server:
+  port: 9050
+  servlet:
+    context-path: /uploads
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+cloudinary:
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${API_KEY}
+  api-secret: ${API_SECRET}

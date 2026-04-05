@@ -31,8 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-# Credentials
-credentials/
-*.json
-!*.example.json
