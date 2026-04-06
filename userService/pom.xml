@@ -120,6 +120,11 @@
                             <tag>latest</tag>
                         </tags>
                     </to>
+                    <container>
+                        <labels>
+                            <build>${maven.build.timestamp}</build>
+                        </labels>
+                    </container>
                 </configuration>
                 <executions>
                     <execution>

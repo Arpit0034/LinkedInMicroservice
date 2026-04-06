@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: arpit0101001/linked-app-user-service:latest
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "200m"
+          requests:
+            memory: "200Mi"
+            cpu: "100m"
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "k8s"
+          - name: DB_USERNAME
+            value: "user"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: user-db-secret
+                key: POSTGRES_PASSWORD
+          - name: DB_SERVER
+            value: user-db
+          - name: DB_NAME
+            value: userDB
+          - name: JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: user-db-secret
+                key: JWT_SECRET_KEY
+        ports:
+        - containerPort: 9020
+      
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: user-service
+  ports:
+  - port: 80
+    targetPort: 9020

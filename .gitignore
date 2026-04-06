@@ -2,3 +2,6 @@
 *.iml
 /credentials/
 /credentials/gcp-key.json
+
+k8s/secrets.yml
+k8s/user-service-dump.yaml
